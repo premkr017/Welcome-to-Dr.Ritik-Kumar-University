@@ -1,3 +1,33 @@
+<?php
+// admission.php
+
+// This file serves as the admission page for Dr. Ritik Kumar University. It provides information about the admission process and includes an enquiry form for prospective students.
+
+include 'form/config.php';
+session_start();
+
+isset($_SESSION['user_id']) ? $user_id = $_SESSION['user_id'] : $user_id = '';
+
+
+
+
+
+
+
+
+
+
+
+
+?>
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +41,6 @@
     <?php include 'form/header_index.php'; ?>
 
     <main>
-
-   
-
 <!-- ADMISSION MAIN SECTION -->
 <main class="bg-gray-100 min-h-screen py-10">
 
@@ -63,30 +90,35 @@
 
   <!-- Admission Form Section -->
   <section class="container mx-auto bg-white shadow-lg rounded-xl p-8 mx-4">
-    <h2 class="text-2xl font-bold text-blue-700 mb-6 text-center">Admission Form</h2>
+    <h2 class="text-2xl font-bold text-blue-700 mb-6 text-center">Admission Enquary Form</h2>
 
-    <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form action="admission.php" method="post" class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
       <!-- Name -->
       <div>
         <label class="text-gray-700 font-medium">Full Name</label>
-        <input type="text" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your full name">
+        <input type="text" id="name" name="name" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your full name">
       </div>
 
       <!-- Email -->
       <div>
         <label class="text-gray-700 font-medium">Email</label>
-        <input type="email" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your email">
+        <input type="email" id="email" name="email" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your email">
       </div>
 
       <!-- Phone -->
       <div>
         <label class="text-gray-700 font-medium">Phone Number</label>
-        <input type="text" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your phone number">
+        <input type="phone" id="phone" name="phone" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your phone number">
+      </div>
+
+      <div>
+        <label class="text-gray-700 font-medium">Whatsapp Number</label>
+        <input type="whatsapp" id="whatsapp" name="whatsapp" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your phone number">
       </div>
 
       <!-- Select Course -->
-      <div>
+      <!-- <div>
         <label class="text-gray-700 font-medium">Select Course</label>
         <select class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600">
           <option>BCA</option>
@@ -96,18 +128,18 @@
           <option>D.Pharm</option>
           <option>Diploma Engineering</option>
         </select>
-      </div>
+      </div> -->
 
       <!-- Address -->
-      <div class="md:col-span-2">
+      <!-- <div class="md:col-span-2">
         <label class="text-gray-700 font-medium">Address</label>
         <textarea class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" rows="3" placeholder="Enter your address"></textarea>
-      </div>
+      </div> -->
 
       <!-- Submit Button -->
       <div class="md:col-span-2">
-        <button class="w-full bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition">
-          Submit Application
+        <button type="submit" name="submit" class="w-full bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition">
+          Submit Enquiry
         </button>
       </div>
 
