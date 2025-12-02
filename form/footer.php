@@ -26,9 +26,9 @@
     <div>
       <h2 class="text-xl font-semibold text-white mb-4">Contact Us</h2>
       <ul class="space-y-2">
-        <li>📍 City, State, India</li>
-        <li>📞 +91 98765 43210</li>
-        <li>📧 info@mycollege.com</li>
+        <li>📍 Prem Enterprises Pvt Ltd, Bhaluwahiywa, Ramgarhwa, East Champaran, Bihar, India</li>
+        <li>📞 +9173230 78109</li>
+        <li>📧 itstherocket83@gmail.com</li>
       </ul>
     </div>
 
