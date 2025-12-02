@@ -3,7 +3,7 @@
 
 
 <!-- HEADER / NAVBAR -->
-<header class="bg-white shadow-md">
+<header class="bg-blue shadow-md">
   <div class="container mx-auto flex items-center justify-between p-4">
 
     <!-- Logo -->

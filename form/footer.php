@@ -6,7 +6,7 @@
     <div>
       <h2 class="text-xl font-semibold text-white mb-4">Welcome to Dr.Ritik Kumar University</h2>
       <p class="text-gray-400">
-        MyCollege is committed to excellence in education, innovation, and skill development for every student.
+        At Dr. Ritik Kumar University, we are dedicated to shaping the future of every learner through quality education, innovation, and skill-oriented training. Our mission is to empower students with the knowledge, discipline, and real-world expertise needed to succeed in their chosen careers. We focus on holistic development, ensuring that each student grows academically, professionally, and personally in a dynamic and supportive learning environment.
       </p>
     </div>
 
@@ -36,6 +36,8 @@
 
   <!-- Copyright -->
   <div class="bg-gray-800 text-center py-4 text-gray-400 text-sm">
-    © 2025 Prem Enterprises — All Rights Reserved. <a href="#" class="hover:text-blue-400">Privacy Policy</a> | <a href="#" class="hover:text-blue-400">Terms of Service</a> | <a href="https://x.com/Rolex01Mr?t=gPkSN3Mk4D1jKeTqP9GMtA&s=09" class="hover:text-blue-400">@R.Ritik</a>
+    © 2025 Prem Enterprises — All Rights Reserved. <a href="#" class="hover:text-blue-400">Privacy Policy</a> | <a href="#" class="hover:text-blue-400">Terms of Service</a> | <a href="https://x.com/Rolex01Mr?t=gPkSN3Mk4D1jKeTqP9GMtA&s=09" 
+   class="hover:text-blue-400" target="_blank" rel="noopener noreferrer">@R.Ritik
+</a>
   </div>
 </footer>
