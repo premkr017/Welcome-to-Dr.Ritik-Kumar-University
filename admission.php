@@ -3,10 +3,56 @@
 
 // This file serves as the admission page for Dr. Ritik Kumar University. It provides information about the admission process and includes an enquiry form for prospective students.
 
-include 'form/config.php';
+include 'course/config.php';
 session_start();
 
-isset($_SESSION['user_id']) ? $user_id = $_SESSION['user_id'] : $user_id = '';
+
+if (isset($_POST['submit'])) {
+
+  $name = $_POST['name'];
+  $email = $_POST['email'];
+  $phone = $_POST['phone'];
+  $course = $_POST['course'];
+  $address = $_POST['address'];
+  // $whatsapp = $_POST['whatsapp'];
+  // $messege = $_POST['messege'];
+
+  // CHECK IF EMAIL OR PHONE  ALREADY EXISTS
+  $checkSql = "SELECT * FROM enquary WHERE email = '$email' OR phone = '$phone'";
+  $checkResult = mysqli_query($conn, $checkSql);
+
+  if (mysqli_num_rows($checkResult) > 0) {
+    $row = mysqli_fetch_assoc($checkResult);
+
+    if ($row['email'] == $email) {
+      $_SESSION['message'] = "Your Email already exists!";
+    }
+    if ($row['phone'] == $phone) {
+      $_SESSION['message'] = "Your Phone number already exists!";
+    }
+
+    header("Location: index.php");
+    exit;
+  }
+
+  $sql = "INSERT INTO enquary ( email , phone, name, course, address ) 
+                    VALUES ( '$email' , '$phone', '$name', '$course', '$address' )";
+
+  $result = mysqli_query($conn, $sql);
+
+  if ($result) {
+    $_SESSION['message'] = 'Sent your detail Successful wait for reply';
+    header('location:index.php');
+
+    exit;
+  } else {
+    $_SESSION['message'] = 'Subscription Failed';
+    header('Location: index.php');
+    exit;
+  }
+}
+
+
 
 
 
@@ -112,11 +158,29 @@ isset($_SESSION['user_id']) ? $user_id = $_SESSION['user_id'] : $user_id = '';
         <input type="phone" id="phone" name="phone" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your phone number">
       </div>
 
-      <div>
+      <!-- <div>
         <label class="text-gray-700 font-medium">Whatsapp Number</label>
         <input type="whatsapp" id="whatsapp" name="whatsapp" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your phone number">
-      </div>
+      </div> -->
 
+
+      <div>
+    <label for="course" class="text-gray-700 font-medium">Select Course</label>
+    <select type="course" id="course" name="course" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600">
+      <option value="">--Select a Course--</option>
+      <option value="BCA">BCA</option>
+      <option value="BBA">BBA</option>
+      <option value="BSc">B.Sc</option>
+      <option value="BEd">B.Ed</option>
+      <option value="DPharm">D.Pharm</option>
+      <option value="DiplomaEngineering">Diploma Engineering</option>
+    </select>
+  </div>
+
+  <div class="md:col-span-2">
+    <label for="address" class="text-gray-700 font-medium">Address</label>
+    <textarea id="address" name="address" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" rows="3" placeholder="Enter your address"></textarea>
+  </div>
       <!-- Select Course -->
       <!-- <div>
         <label class="text-gray-700 font-medium">Select Course</label>
