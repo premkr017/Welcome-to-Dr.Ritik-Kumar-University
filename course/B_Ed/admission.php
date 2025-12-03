@@ -9,11 +9,14 @@ if (isset($_POST['submit'])) {
     $phone = $_POST['number'];
     $gender = $_POST['gender'];
     $dob = $_POST['dob'];
-    $password = $_POST['password'];
+
+    // Get password and HASH it
+    $password_plain = $_POST['password'];
+    $password = password_hash($password_plain, PASSWORD_DEFAULT);
 
 
     // Validate inputs
-    if (empty($name) || empty($email) || empty($phone) || empty($gender) || empty($dob) || empty($password)) {
+    if (empty($name) || empty($email) || empty($phone) || empty($gender) || empty($dob) || empty($password_plain)) {
         $_SESSION['message'] = "All fields are required!";
         header("Location: admission.php");
         exit;
@@ -38,24 +41,22 @@ if (isset($_POST['submit'])) {
         exit;
     }
 
+ // INSERT with HASHED PASSWORD
+    $sql = "INSERT INTO b_ed (name, email, phone, gender, dob, password)
+            VALUES ('$name', '$email', '$phone', '$gender', '$dob', '$password')";
 
-
-    $sql = "INSERT INTO b_ed ( name, email , phone, gender, dob, password ) 
-                    VALUES ( '$name', '$email' , '$phone', '$gender', '$dob', '$password' )";
     $result = mysqli_query($conn, $sql);
+
     if ($result) {
-        $_SESSION['message'] = 'Sent your detail Successful wait for reply';
-        header('location:admission.php');
+        $_SESSION['message'] = 'Sent your detail Successful. Wait for reply.';
+        header('location: admission.php');
         exit;
     } else {
         $_SESSION['message'] = 'Subscription Failed';
         header('Location: admission.php');
         exit;
     }
-
-
 }
-
 
 ?>
 
@@ -123,7 +124,7 @@ if (isset($_POST['submit'])) {
                     B.Ed Admission Form – 2025
                 </h1>
 
-                <form action="#" method="POST" class="bg-gray-100 shadow-lg rounded-lg p-8">
+                <form action="admission.php" method="POST" class="bg-gray-100 shadow-lg rounded-lg p-8">
 
                     <!-- Name -->
                     <label class="block mb-4">
