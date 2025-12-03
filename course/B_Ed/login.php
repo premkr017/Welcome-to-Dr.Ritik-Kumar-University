@@ -139,7 +139,7 @@ if (isset($_POST['submit'])) {
                 </button>
 
                 <p class="text-center text-sm mt-2">
-                    Not registered? <a href="header_register.php" class="text-blue-600">Register Now</a>
+                    Not registered? <a href="admission.php" class="text-blue-600">Register Now</a>
                 </p>
 
             </form>

@@ -150,7 +150,7 @@ if (isset($_POST['submit'])) {
         die("INSERT FAILED: " . mysqli_error($conn));
     }
 
-    $_SESSION['message'] = "Form submitted successfully. Please wait for approval.";
+    $_SESSION['message'] = "Form submitted successfully. Please go to login.";
     header("Location: admission.php");
     exit;
 } 
