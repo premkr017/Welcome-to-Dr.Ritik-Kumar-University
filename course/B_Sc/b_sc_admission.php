@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
             $_SESSION['message'] = "Your Phone number already exists!";
         }
 
-        header("Location: bca_admission.php");
+        header("Location: b_sc_admission.php");
         exit;
     }
 
@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
     $result = mysqli_query($conn, $sql);
     if ($result) {
         $_SESSION['message'] = 'Sent your detail Successful wait for reply';
-        header('location:bca_admission.php');
+        header('location:b_sc_admission.php');
         exit;
     } else {
         $_SESSION['message'] = 'Subscription Failed';
@@ -68,7 +68,7 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BCA Admission Registration</title>
+    <title>BSC Admission Registration</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 

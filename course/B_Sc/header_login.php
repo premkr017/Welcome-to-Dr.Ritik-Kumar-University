@@ -14,7 +14,7 @@
     <!-- Desktop Menu -->
     <nav class="hidden md:flex space-x-8 text-gray-700 font-medium">
       <a href="../../index.php" class="hover:text-blue-600">Home</a>
-      <a href="bca_admission.php" class="hover:text-blue-600">Create Account</a>
+      <a href="b_sc_admission.php" class="hover:text-blue-600">Create Account</a>
       <!-- <a href="logout.php" class="hover:text-blue-600">Logout</a> -->
     </nav>
 

@@ -9,7 +9,7 @@ if (isset($_POST['submit'])) {
     // Validate inputs
     if (empty($user) || empty($password)) {
         $_SESSION['message'] = "All fields are required!";
-        header("Location: bca_login.php");
+        header("Location: b_sc_login.php");
         exit;
     }
 

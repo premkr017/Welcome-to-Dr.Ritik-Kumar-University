@@ -28,7 +28,7 @@
       <img src="https://images.unsplash.com/photo-1619410283995-43d9134e7656?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D/400x250" class="rounded-lg mb-4">
       <h2 class="text-xl font-semibold text-blue-700 mb-2">Bachelor of Computer Application (BCA)</h2>
       <p class="text-gray-600 mb-4">Learn programming, networking, cybersecurity, AI and build a strong IT career.</p>
-      <a href="./course/bca/b_sc_admission.php" class="block text-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition">View Details</a>
+      <a href="./course/bca/bca_admission.php" class="block text-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition">View Details</a>
     </div>
 
     <!-- Course Card 2 -->
@@ -36,7 +36,7 @@
       <img src="https://images.unsplash.com/photo-1658476314412-a33a7dc83a1e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D/400x250" class="rounded-lg mb-4">
       <h2 class="text-xl font-semibold text-blue-700 mb-2">Bachelor of Science (B.Sc)</h2>
       <p class="text-gray-600 mb-4">Specialize in Physics, Chemistry, Maths, or Biology with modern lab facilities.</p>
-      <a href="./course/B_Sc/bca_admission.php" class="block text-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition">View Details</a>
+      <a href="./course/B_Sc/b_sc_admission.php" class="block text-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition">View Details</a>
     </div>
 
     <!-- Course Card 3 -->
