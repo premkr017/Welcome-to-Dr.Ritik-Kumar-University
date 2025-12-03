@@ -1,3 +1,50 @@
+<?php
+// contact.php
+include 'course/config.php';
+session_start();
+
+if (isset($_POST['submit'])) {
+  $name = $_POST['name'];
+  $email = $_POST['email'];
+  $subject = $_POST['subject'];
+  $messege = $_POST['messege'];
+
+  // CHECK IF EMAIL ALREADY EXISTS
+  $checkSql = "SELECT * FROM contact WHERE email = '$email'";
+  $checkResult = mysqli_query($conn, $checkSql);
+
+  if (mysqli_num_rows($checkResult) > 0) {
+    $_SESSION['message'] = "Your Email already exists!";
+    header("Location: contact.php");
+    exit;
+  }
+
+  $sql = "INSERT INTO contact ( name, email, subject, messege ) 
+                    VALUES ( '$name', '$email', '$subject', '$messege' )";
+
+  $result = mysqli_query($conn, $sql);
+
+  if ($result) {
+    $_SESSION['message'] = 'Your message has been sent successfully. We will get back to you soon.';
+    header('location:contact.php');
+    exit;
+  } else {
+    $_SESSION['message'] = 'Failed to send your message. Please try again later.';
+    header('Location: contact.php');
+    exit;
+  }
+}
+
+
+
+
+
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,36 +116,35 @@
         <!-- Name -->
         <div>
           <label class="text-gray-700 font-medium">Full Name</label>
-          <input type="text" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your name">
+          <input type="text" id="name" name="name" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your name">
         </div>
 
         <!-- Email -->
         <div>
           <label class="text-gray-700 font-medium">Email</label>
-          <input type="email" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your email">
+          <input type="email" id="email" name="email" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your email">
         </div>
 
         <!-- Subject -->
         <div>
           <label class="text-gray-700 font-medium">Subject</label>
-          <input type="text" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="What is your query about?">
+          <input type="text" id="subject" name="subject" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="What is your query about?">
         </div>
 
         <!-- Message -->
         <div>
           <label class="text-gray-700 font-medium">Message</label>
-          <textarea rows="4" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Write your message here..."></textarea>
+          <textarea type="text" id="messege" name="messege" rows="4" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Write your message here..."></textarea>
         </div>
 
         <!-- Submit Button -->
-        <button class="w-full bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition">
+        <button type="submit" name="submit" class="w-full bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition">
           Send Message
         </button>
 
       </form>
 
-    </div>
-
+    </ 
   </div>
 
   <!-- MAP SECTION -->
@@ -106,12 +152,7 @@
     <h2 class="text-2xl font-bold text-blue-700 mb-4">Our Location</h2>
     <div class="rounded-xl overflow-hidden shadow-lg">
       <iframe 
-        width="100%" 
-        height="350" 
-        frameborder="0" 
-        scrolling="no" 
-        marginheight="0" 
-        marginwidth="0"
+        width="100%"  height="350"  frameborder="0"  scrolling="no"  marginheight="0"  marginwidth="0"
         src="https://maps.google.com/maps?q=Ramgarhwa%20Bihar&t=&z=13&ie=UTF8&iwloc=&output=embed">
       </iframe>
     </div>
