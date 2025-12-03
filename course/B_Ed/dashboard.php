@@ -21,7 +21,7 @@
     <main class="container mx-auto py-12 px-4">
 
         <h1 class="text-3xl font-bold text-center text-blue-700 mb-10">
-            User Dashboard
+            Welcome B.Ed Dashboard
         </h1>
 
         <!-- PROFILE CARD -->
