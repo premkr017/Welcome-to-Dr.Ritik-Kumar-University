@@ -1,5 +1,6 @@
 <?php
-include '../../form/config.php';
+
+include '../config.php';
 session_start();        
 
 if (isset($_POST['submit'])) {
@@ -11,9 +12,17 @@ if (isset($_POST['submit'])) {
     $password = $_POST['password'];
 
 
+    // Validate inputs
+    if (empty($name) || empty($email) || empty($phone) || empty($gender) || empty($dob) || empty($password)) {
+        $_SESSION['message'] = "All fields are required!";
+        header("Location: bca_admission.php");
+        exit;
+    }
+
+
 
     // CHECK IF EMAIL OR PHONE  ALREADY EXISTS
-    $checkSql = "SELECT * FROM bca_admission WHERE email = '$email' OR phone = '$phone'";
+    $checkSql = "SELECT * FROM bca WHERE email = '$email' OR phone = '$phone'";
     $checkResult = mysqli_query($conn, $checkSql);
     if (mysqli_num_rows($checkResult) > 0) {
         $row = mysqli_fetch_assoc($checkResult);
@@ -31,7 +40,7 @@ if (isset($_POST['submit'])) {
 
 
 
-    $sql = "INSERT INTO bca_admission ( name, email , phone, gender, dob, password ) 
+    $sql = "INSERT INTO bca ( name, email , phone, gender, dob, password ) 
                     VALUES ( '$name', '$email' , '$phone', '$gender', '$dob', '$password' )";
     $result = mysqli_query($conn, $sql);
     if ($result) {
@@ -48,12 +57,6 @@ if (isset($_POST['submit'])) {
 }
 
 
-
-
-
-
-
-
 ?>
 
 
@@ -65,12 +68,12 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BCA Admission form</title>
+    <title>BCA Admission Registration</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-    <?php include 'header.php'; ?>
+    <?php include 'header_register.php'; ?>
     <main>
         <main class="main">
 

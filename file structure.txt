@@ -1,0 +1,31 @@
+Dr.Ritik_Kumar_University_Registration_form/
+├── about.php
+├── admission.php
+├── contact.php
+├── course.php
+├── index.php
+├── style.css
+├── course/
+│   ├── config.php
+│   └── bca/
+│       ├── bca_admission.php
+│       ├── bca_login.php
+│       ├── header.php
+│       └── logout.php
+├── form/
+│   ├── footer.php
+│   ├── header_index.php
+│   ├── main_header.php
+│   ├── registration_graduation.php
+│   ├── registration_master.php
+│   └── style.css
+└── images/
+    ├── ceo.jpg
+    ├── IMG_2024072.jpg
+    ├── IMG_20240322_190526.jpg
+    ├── IMG_20240724_203840.jpg
+    ├── manager - Copy (2).jpg
+    ├── manager - Copy.jpg
+    ├── manager.jpg
+    ├── window 8.avif
+    └── windows 7.avif
