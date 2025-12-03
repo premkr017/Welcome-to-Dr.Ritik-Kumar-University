@@ -44,7 +44,7 @@
       <img src="https://plus.unsplash.com/premium_photo-1669530841457-a10eb484ecb4?q=80&w=1315&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D/400x250" class="rounded-lg mb-4">
       <h2 class="text-xl font-semibold text-blue-700 mb-2">Bachelor of Business Administration (BBA)</h2>
       <p class="text-gray-600 mb-4">Perfect program for future entrepreneurs, managers, and corporate leaders.</p>
-      <a href="#" class="block text-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition">View Details</a>
+      <a href="./course/bba/admission.php" class="block text-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition">View Details</a>
     </div>
 
     <!-- Course Card 4 -->
@@ -52,7 +52,7 @@
       <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D/400x250" class="rounded-lg mb-4">
       <h2 class="text-xl font-semibold text-blue-700 mb-2">Diploma in Pharmacy (D.Pharm)</h2>
       <p class="text-gray-600 mb-4">Build your career in the medical & pharmaceutical sector.</p>
-      <a href="#" class="block text-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition">View Details</a>
+      <a href="./course/D_pharm/admission.php" class="block text-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition">View Details</a>
     </div>
 
     <!-- Course Card 5 -->
@@ -60,7 +60,7 @@
       <img src="https://plus.unsplash.com/premium_photo-1683121716061-3faddf4dc504?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D/400x250" class="rounded-lg mb-4">
       <h2 class="text-xl font-semibold text-blue-700 mb-2">Diploma in Engineering</h2>
       <p class="text-gray-600 mb-4">Mechanical, Electrical, Civil & Computer Engineering options available.</p>
-      <a href="#" class="block text-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition">View Details</a>
+      <a href="./course/Diploma_in_engineering/admission.php" class="block text-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition">View Details</a>
     </div>
 
     <!-- Course Card 6 -->
@@ -68,7 +68,7 @@
       <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D/400x250" class="rounded-lg mb-4">
       <h2 class="text-xl font-semibold text-blue-700 mb-2">Bachelor of Education (B.Ed)</h2>
       <p class="text-gray-600 mb-4">Become a professional teacher with high-quality training.</p>
-      <a href="#" class="block text-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition">View Details</a>
+      <a href="./course/B_Ed/admission.php" class="block text-center bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition">View Details</a>
     </div>
 
   </div>
