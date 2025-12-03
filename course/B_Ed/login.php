@@ -9,12 +9,12 @@ if (isset($_POST['submit'])) {
     // Validate inputs
     if (empty($user) || empty($password)) {
         $_SESSION['message'] = "All fields are required!";
-        header("Location: bca_login.php");
+        header("Location: login.php");
         exit;
     }
 
     // Check credentials
-    $sql = "SELECT * FROM bca WHERE (email = '$user' OR phone = '$user') AND password = '$password'";
+    $sql = "SELECT * FROM b_ed WHERE (email = '$user' OR phone = '$user') AND password = '$password'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) == 1) {
@@ -23,7 +23,7 @@ if (isset($_POST['submit'])) {
         exit;
     } else {
         $_SESSION['message'] = "Invalid credentials!";
-        header("Location: bca_login.php");
+        header("Location: login.php");
         exit;
     }
 }

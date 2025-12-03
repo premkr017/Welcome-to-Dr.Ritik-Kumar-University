@@ -22,7 +22,7 @@ if (isset($_POST['submit'])) {
 
 
     // CHECK IF EMAIL OR PHONE  ALREADY EXISTS
-    $checkSql = "SELECT * FROM bca WHERE email = '$email' OR phone = '$phone'";
+    $checkSql = "SELECT * FROM b_ed WHERE email = '$email' OR phone = '$phone'";
     $checkResult = mysqli_query($conn, $checkSql);
     if (mysqli_num_rows($checkResult) > 0) {
         $row = mysqli_fetch_assoc($checkResult);
@@ -40,16 +40,16 @@ if (isset($_POST['submit'])) {
 
 
 
-    $sql = "INSERT INTO bca ( name, email , phone, gender, dob, password ) 
+    $sql = "INSERT INTO b_ed ( name, email , phone, gender, dob, password ) 
                     VALUES ( '$name', '$email' , '$phone', '$gender', '$dob', '$password' )";
     $result = mysqli_query($conn, $sql);
     if ($result) {
         $_SESSION['message'] = 'Sent your detail Successful wait for reply';
-        header('location:bca_admission.php');
+        header('location:admission.php');
         exit;
     } else {
         $_SESSION['message'] = 'Subscription Failed';
-        header('Location: bca_admission.php');
+        header('Location: admission.php');
         exit;
     }
 
