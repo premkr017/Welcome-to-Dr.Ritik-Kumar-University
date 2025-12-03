@@ -1,3 +1,64 @@
+<?php
+include '../../form/config.php';
+session_start();        
+
+if (isset($_POST['submit'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['number'];
+    $gender = $_POST['gender'];
+    $dob = $_POST['dob'];
+    $password = $_POST['password'];
+
+
+
+    // CHECK IF EMAIL OR PHONE  ALREADY EXISTS
+    $checkSql = "SELECT * FROM bca_admission WHERE email = '$email' OR phone = '$phone'";
+    $checkResult = mysqli_query($conn, $checkSql);
+    if (mysqli_num_rows($checkResult) > 0) {
+        $row = mysqli_fetch_assoc($checkResult);
+
+        if ($row['email'] == $email) {
+            $_SESSION['message'] = "Your Email already exists!";
+        }
+        if ($row['phone'] == $phone) {
+            $_SESSION['message'] = "Your Phone number already exists!";
+        }
+
+        header("Location: bca_admission.php");
+        exit;
+    }
+
+
+
+    $sql = "INSERT INTO bca_admission ( name, email , phone, gender, dob, password ) 
+                    VALUES ( '$name', '$email' , '$phone', '$gender', '$dob', '$password' )";
+    $result = mysqli_query($conn, $sql);
+    if ($result) {
+        $_SESSION['message'] = 'Sent your detail Successful wait for reply';
+        header('location:bca_admission.php');
+        exit;
+    } else {
+        $_SESSION['message'] = 'Subscription Failed';
+        header('Location: bca_admission.php');
+        exit;
+    }
+
+
+}
+
+
+
+
+
+
+
+
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,14 +126,14 @@
                         <!-- Name -->
                         <label class="block mb-4">
                             <span class="text-gray-700 font-medium">Full Name*</span>
-                            <input type="text" required
+                            <input type="text" id="name" name="name" required
                                 class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                         </label>
 
                         <!-- Gender -->
                         <label class="block mb-4">
                             <span class="text-gray-700 font-medium">Gender*</span>
-                            <select required
+                            <select type="gender" id="gender" name="gender" required
                                 class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option>Select Gender</option>
                                 <option>Male</option>
@@ -85,30 +146,33 @@
                         <!-- Date of Birth -->
                         <label class="block mb-4">
                             <span class="text-gray-700 font-medium">Date of Birth*</span>
-                            <input type="date" required
+                            <input type="dob" id="dob" name="dob" required
                                 class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </label>
 
                         <!-- Email -->
                         <label class="block mb-4">
                             <span class="text-gray-700 font-medium">Email Address*</span>
-                            <input type="email" required
+                            <input type="email" id="email" name="email" required
                                 class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                         </label>
 
                         <!-- Mobile -->
                         <label class="block mb-4">
                             <span class="text-gray-700 font-medium">Mobile Number*</span>
-                            <input type="number" required
+                            <input type="number" id="number" name="number" required
                                 class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                         </label>
 
+<label class="block mb-4">
+    <span class="text-gray-700 font-medium">Password*</span>
+    <input type="password" id="password" name="password" required
+        class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+</label>
 
 
 
-
-                        <button
-                            class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition-all">
+                        <button type="submit" name="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition-all">
                             Submit Admission Form
                         </button>
                     </form>

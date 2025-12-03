@@ -31,10 +31,10 @@
       <!-- Buttons -->
       <div class="flex flex-wrap justify-center gap-4">
         <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 hover:bg-indigo-600 rounded text-lg">
-          Learn More Courses
+          <a href="course.php" class="hover:text-blue-400">Learn More Courses</a>
         </button>
         <button class="inline-flex text-gray-800 bg-gray-100 border-0 py-2 px-6 hover:bg-gray-200 rounded text-lg">
-          Go to Admission
+          <a href="admission.php" class="hover:text-blue-400">Go to Admission</a>
         </button>
       </div>
 
