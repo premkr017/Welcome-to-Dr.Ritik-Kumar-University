@@ -3,14 +3,58 @@ Dr.Ritik_Kumar_University_Registration_form/
 ├── admission.php
 ├── contact.php
 ├── course.php
+├── file structure.txt
 ├── index.php
 ├── style.css
 ├── course/
 │   ├── config.php
-│   └── bca/
-│       ├── bca_admission.php
-│       ├── bca_login.php
-│       ├── header.php
+│   ├── B_Ed/
+│   │   ├── admission.php
+│   │   ├── dashboard.php
+│   │   ├── header_dashboard.php
+│   │   ├── header_login.php
+│   │   ├── header_register.php
+│   │   ├── login.php
+│   │   └── logout.php
+│   ├── B_Sc/
+│   │   ├── b_sc_admission.php
+│   │   ├── b_sc_login.php
+│   │   ├── dashboard.php
+│   │   ├── header_dashboard.php
+│   │   ├── header_login.php
+│   │   ├── header_register.php
+│   │   └── logout.php
+│   ├── BBA/
+│   │   ├── admission.php
+│   │   ├── dashboard.php
+│   │   ├── header_dashboard.php
+│   │   ├── header_login.php
+│   │   ├── header_register.php
+│   │   ├── login.php
+│   │   └── logout.php
+│   ├── bca/
+│   │   ├── bca_admission.php
+│   │   ├── bca_login.php
+│   │   ├── dashboard.php
+│   │   ├── header_dashboard.php
+│   │   ├── header_login.php
+│   │   ├── header_register.php
+│   │   └── logout.php
+│   ├── D_Pharm/
+│   │   ├── admission.php
+│   │   ├── dashboard.php
+│   │   ├── header_dashboard.php
+│   │   ├── header_login.php
+│   │   ├── header_register.php
+│   │   ├── login.php
+│   │   └── logout.php
+│   └── Diploma_in_Engineering/
+│       ├── admission.php
+│       ├── dashboard.php
+│       ├── header_dashboard.php
+│       ├── header_login.php
+│       ├── header_register.php
+│       ├── login.php
 │       └── logout.php
 ├── form/
 │   ├── footer.php
