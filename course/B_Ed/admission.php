@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
     // Validate inputs
     if (empty($name) || empty($email) || empty($phone) || empty($gender) || empty($dob) || empty($password)) {
         $_SESSION['message'] = "All fields are required!";
-        header("Location: bca_admission.php");
+        header("Location: admission.php");
         exit;
     }
 
