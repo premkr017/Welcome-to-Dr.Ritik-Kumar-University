@@ -45,6 +45,7 @@ if (isset($_POST['submit'])) {
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,38 +112,33 @@ if (isset($_POST['submit'])) {
     <div class="bg-white shadow-lg rounded-xl p-8">
       <h2 class="text-2xl font-bold text-blue-700 mb-6">Send us a Message</h2>
 
-      <form class="space-y-5">
+     <form action="contact.php" method="POST" class="space-y-5">
 
-        <!-- Name -->
-        <div>
-          <label class="text-gray-700 font-medium">Full Name</label>
-          <input type="text" id="name" name="name" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your name">
-        </div>
+    <div>
+      <label class="text-gray-700 font-medium">Full Name</label>
+      <input type="text" id="name" name="name" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your name" required>
+    </div>
 
-        <!-- Email -->
-        <div>
-          <label class="text-gray-700 font-medium">Email</label>
-          <input type="email" id="email" name="email" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your email">
-        </div>
+    <div>
+      <label class="text-gray-700 font-medium">Email</label>
+      <input type="email" id="email" name="email" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Enter your email" required>
+    </div>
 
-        <!-- Subject -->
-        <div>
-          <label class="text-gray-700 font-medium">Subject</label>
-          <input type="text" id="subject" name="subject" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="What is your query about?">
-        </div>
+    <div>
+      <label class="text-gray-700 font-medium">Subject</label>
+      <input type="text" id="subject" name="subject" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="What is your query about?" required>
+    </div>
 
-        <!-- Message -->
-        <div>
-          <label class="text-gray-700 font-medium">Message</label>
-          <textarea type="text" id="messege" name="messege" rows="4" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Write your message here..."></textarea>
-        </div>
+    <div>
+      <label class="text-gray-700 font-medium">Message</label>
+      <textarea id="messege" name="messege" rows="4" class="w-full border mt-1 p-2 rounded-lg focus:ring-2 focus:ring-blue-600" placeholder="Write your message here..." required></textarea>
+    </div>
 
-        <!-- Submit Button -->
-        <button type="submit" name="submit" class="w-full bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition">
-          Send Message
-        </button>
+    <button type="submit" name="submit" class="w-full bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition">
+      Send Message
+    </button>
 
-      </form>
+</form>
 
     </ 
   </div>
