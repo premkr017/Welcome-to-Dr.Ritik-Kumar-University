@@ -1,95 +1,50 @@
 <?php
-//old code
-// include '../config.php';
-// session_start();
-
-//this is my new code
-session_start();
 include '../config.php';
+session_start();
 
-//old code
-// if (isset($_POST['submit'])) {
-//     $user = $_POST['user'];
-//     $password = $_POST['password'];
+// Show alert message
+if (isset($_SESSION['message'])) {
+    echo "<script>alert('{$_SESSION['message']}');</script>";
+    unset($_SESSION['message']);
+}
 
-//this is my new code
-// If login form submitted
 if (isset($_POST['submit'])) {
 
     $user = trim($_POST['user']);
     $password = trim($_POST['password']);
 
-//old code
-    // Validate inputs
-    // if (empty($user) || empty($password)) {
-    //     $_SESSION['message'] = "All fields are required!";
-    //     header("Location: login.php");
-    //     exit;
-    // }
+    // Fetch user from email or phone
+    $selectquery = "SELECT * FROM b_ed WHERE email = '$user' OR phone = '$user'";
+    $res = mysqli_query($conn, $selectquery);
 
-    //this is my new code
-     // Empty fields check
-    if ($user == "" || $password == "") {
-        $_SESSION['message'] = "All fields are required!";
-        header("Location: login.php");
-        exit;
-    }
+    if (mysqli_num_rows($res) > 0) {
 
-    //old code
-    // Check credentials
-//     $sql = "SELECT * FROM b_ed WHERE (email = '$user' OR phone = '$user') AND password = '$password'";
-//     $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($res);
 
-//     if (mysqli_num_rows($result) == 1) {
-//         $_SESSION['message'] = "Login successful!";
-//         header("Location: dashboard.php"); // Redirect to dashboard or another page
-//         exit;
-//     } else {
-//         $_SESSION['message'] = "Invalid credentials!";
-//         header("Location: login.php");
-//         exit;
-//     }
-// }
+        $hashed_password = $row['password'];
 
-//this is my new code 
- // Prepared Statement (SAFE)
-    $stmt = $conn->prepare("SELECT * FROM b_ed WHERE email = ? OR phone = ?");
-    $stmt->bind_param("ss", $user, $user);
-    $stmt->execute();
-    $result = $stmt->get_result();
+        // Verify password
+        if (password_verify($password, $hashed_password)) {
 
-    // If user exists
-    if ($result->num_rows == 1) {
-        $row = $result->fetch_assoc();
-
-        // Verify password (if saved as plain text)
-        if ($password === $row['password']) {
-
-            // Create Session
+            // Save session
             $_SESSION['loggedin'] = true;
             $_SESSION['student_id'] = $row['id'];
             $_SESSION['student_name'] = $row['name'];
+            $_SESSION['phone'] = $row['phone'];   // FIXED
+            $_SESSION['email'] = $row['email'];
 
-            $_SESSION['message'] = "Login successful!";
-            header("Location: dashboard.php");
+            header('Location: dashboard.php');
             exit;
 
         } else {
-            $_SESSION['message'] = "Incorrect Password!";
-            header("Location: login.php");
-            exit;
+            echo "<script>alert('Incorrect password');</script>";
         }
 
     } else {
-        // User not registered
-        $_SESSION['message'] = "User not found! Please register first.";
-        header("Location: admission.php");
-        exit;
+        echo "<script>alert('Email or Mobile not found');</script>";
     }
 }
-
 ?>
-
 
 
 
@@ -125,7 +80,7 @@ if (isset($_POST['submit'])) {
 
             <h2 class="text-2xl font-semibold text-center mb-6">Login</h2>
 
-            <form action="" method="POST" class="space-y-4">
+            <form method="POST" class="space-y-4">
 
                 <input type="text" name="user" placeholder="Email or Mobile"
                     required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
