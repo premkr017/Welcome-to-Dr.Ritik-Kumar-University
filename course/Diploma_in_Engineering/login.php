@@ -2,34 +2,50 @@
 include '../config.php';
 session_start();
 
-if (isset($_POST['submit'])) {
-    $user = $_POST['user'];
-    $password = $_POST['password'];
-
-    // Validate inputs
-    if (empty($user) || empty($password)) {
-        $_SESSION['message'] = "All fields are required!";
-        header("Location: bca_login.php");
-        exit;
-    }
-
-    // Check credentials
-    $sql = "SELECT * FROM diploma_in_engineering WHERE (email = '$user' OR phone = '$user') AND password = '$password'";
-    $result = mysqli_query($conn, $sql);
-
-    if (mysqli_num_rows($result) == 1) {
-        $_SESSION['message'] = "Login successful!";
-        header("Location: dashboard.php"); // Redirect to dashboard or another page
-        exit;
-    } else {
-        $_SESSION['message'] = "Invalid credentials!";
-        header("Location: login.php");
-        exit;
-    }
+// Show alert message
+if (isset($_SESSION['message'])) {
+    echo "<script>alert('{$_SESSION['message']}');</script>";
+    unset($_SESSION['message']);
 }
 
+if (isset($_POST['submit'])) {
 
+    $user = trim($_POST['user']);
+    $password = trim($_POST['password']);
+
+    // Fetch user from email or phone
+    $selectquery = "SELECT * FROM diploma_in_engineering WHERE email = '$user' OR phone = '$user'";
+    $res = mysqli_query($conn, $selectquery);
+
+    if (mysqli_num_rows($res) > 0) {
+
+        $row = mysqli_fetch_assoc($res);
+
+        $hashed_password = $row['password'];
+
+        // Verify password
+        if (password_verify($password, $hashed_password)) {
+
+            // Save session
+            $_SESSION['loggedin'] = true;
+            $_SESSION['student_id'] = $row['id'];
+            $_SESSION['student_name'] = $row['name'];
+            $_SESSION['phone'] = $row['phone'];   // FIXED
+            $_SESSION['email'] = $row['email'];
+
+            header('Location: dashboard.php');
+            exit;
+
+        } else {
+            echo "<script>alert('Incorrect password');</script>";
+        }
+
+    } else {
+        echo "<script>alert('Email or Mobile not found');</script>";
+    }
+}
 ?>
+
 
 
 

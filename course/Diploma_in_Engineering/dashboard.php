@@ -1,5 +1,19 @@
 
+<?php
+include '../config.php';
+session_start();
 
+// LOGIN PROTECTION
+if (!isset($_SESSION['student_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
+// Fetch user data
+$id = $_SESSION['student_id'];
+$query = mysqli_query($conn, "SELECT * FROM diploma_in_engineering WHERE id = '$id'");
+$user = mysqli_fetch_assoc($query);
+?>
 
 
 

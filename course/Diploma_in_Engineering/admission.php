@@ -1,37 +1,105 @@
 <?php
 
-include '../config.php';
-session_start();        
+include '../config.php';   // ✔️ This is correct for your structure
+session_start();
+//old code
+// if (isset($_POST['submit'])) {
+//     $name = $_POST['name'];
+//     $email = $_POST['email'];
+//     $phone = $_POST['number'];
+//     $gender = $_POST['gender'];
+//     $dob = $_POST['dob'];
 
+//this is my new code with password hashing
+// ---------- FORM SUBMIT ----------
 if (isset($_POST['submit'])) {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['number'];
-    $gender = $_POST['gender'];
-    $dob = $_POST['dob'];
-    $password = $_POST['password'];
 
-
-    // Validate inputs
-    if (empty($name) || empty($email) || empty($phone) || empty($gender) || empty($dob) || empty($password)) {
+    // Get values safely
+    $name     = trim($_POST['name']);
+    $gender   = trim($_POST['gender']);
+    $dob      = trim($_POST['dob']);
+    $email    = trim($_POST['email']);
+    $phone    = trim($_POST['number']);
+    $password_plain = trim($_POST['password']);
+    
+  
+    //this is my new code
+    // ---------- BASIC VALIDATION ----------
+    if (
+        empty($name) ||
+        empty($gender) ||
+        empty($dob) ||
+        empty($email) ||
+        empty($phone) ||
+        empty($password_plain)
+    ) {
         $_SESSION['message'] = "All fields are required!";
         header("Location: admission.php");
         exit;
     }
+//old code
+    // Validate inputs
+    // if (empty($name) || empty($email) || empty($phone) || empty($gender) || empty($dob) || empty($password_plain)) {
+    //     $_SESSION['message'] = "All fields are required!";
+    //     header("Location: admission.php");
+    //     exit;
+    // }
 
+    //new code
+    // Gender validation
+    if ($gender == "") {
+        $_SESSION['message'] = "Please select a valid gender!";
+        header("Location: admission.php");
+        exit;
+    }
 
+  //old code
+    // Get password and HASH it
+    // $password_plain = $_POST['password'];
+    // $password = password_hash($password_plain, PASSWORD_DEFAULT);
 
+    // New code
+    // Hash password
+    $password = password_hash($password_plain, PASSWORD_DEFAULT);
+
+//old code
     // CHECK IF EMAIL OR PHONE  ALREADY EXISTS
-    $checkSql = "SELECT * FROM diploma_in_engineering WHERE email = '$email' OR phone = '$phone'";
-    $checkResult = mysqli_query($conn, $checkSql);
-    if (mysqli_num_rows($checkResult) > 0) {
-        $row = mysqli_fetch_assoc($checkResult);
+    // $checkSql = "SELECT * FROM b_ed WHERE email = '$email' OR phone = '$phone'";
+    // $checkResult = mysqli_query($conn, $checkSql);
+    // if (mysqli_num_rows($checkResult) > 0) {
+    //     $row = mysqli_fetch_assoc($checkResult);
 
+    //     if ($row['email'] == $email) {
+    //         $_SESSION['message'] = "Your Email already exists!";
+    //     }
+    //     if ($row['phone'] == $phone) {
+    //         $_SESSION['message'] = "Your Phone number already exists!";
+    //     }
+
+    //     header("Location: admission.php");
+    //     exit;
+    // }
+
+    
+    // New code
+    // ---------- CHECK DUPLICATE EMAIL / PHONE ----------
+    $checkSql = "SELECT * FROM diploma_in_engineering WHERE email = ? OR phone = ?";
+    $stmt = mysqli_prepare($conn, $checkSql);
+
+    if (!$stmt) {
+        die("Query Prepare Failed: " . mysqli_error($conn));
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $email, $phone);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($result)) {
         if ($row['email'] == $email) {
-            $_SESSION['message'] = "Your Email already exists!";
+            $_SESSION['message'] = "Email already exists!";
         }
         if ($row['phone'] == $phone) {
-            $_SESSION['message'] = "Your Phone number already exists!";
+            $_SESSION['message'] = "Phone number already exists!";
         }
 
         header("Location: admission.php");
@@ -39,23 +107,53 @@ if (isset($_POST['submit'])) {
     }
 
 
+//old code
+    // INSERT DATA INTO DATABASE
+    // INSERT with HASHED PASSWORD
+//     $sql = "INSERT INTO b_ed (name, email, phone, gender, dob, password)
+//             VALUES ('$name', '$email', '$phone', '$gender', '$dob', '$password')";
 
-    $sql = "INSERT INTO diploma_in_engineering ( name, email , phone, gender, dob, password ) 
-                    VALUES ( '$name', '$email' , '$phone', '$gender', '$dob', '$password' )";
-    $result = mysqli_query($conn, $sql);
-    if ($result) {
-        $_SESSION['message'] = 'Sent your detail Successful wait for reply';
-        header('location: admission.php');
-        exit;
-    } else {
-        $_SESSION['message'] = 'Subscription Failed';
-        header('Location: admission.php');
-        exit;
+//     if (!$result) {
+//         die("INSERT FAILED: " . mysqli_error($conn));
+//     }
+
+
+//     $result = mysqli_query($conn, $sql);
+
+//     if ($result) {
+//         $_SESSION['message'] = 'Sent your detail Successful. Wait for reply.';
+//         header('location: admission.php');
+//         exit;
+//     } else {
+//         $_SESSION['message'] = 'Subscription Failed';
+//         header('Location: admission.php');
+//         exit;
+//     }
+// }
+
+
+// New code
+    // ---------- INSERT DATA INTO DATABASE ----------
+   // ---------- INSERT STUDENT ----------
+    $insertSql = "INSERT INTO diploma_in_engineering (name, gender, dob, email, phone, password)
+                  VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt2 = mysqli_prepare($conn, $insertSql);
+
+    if (!$stmt2) {
+        die("Insert Prepare Failed: " . mysqli_error($conn));
     }
 
+    mysqli_stmt_bind_param($stmt2, "ssssss", $name, $gender, $dob, $email, $phone, $password);
+    $insertSuccess = mysqli_stmt_execute($stmt2);
 
-}
+    if (!$insertSuccess) {
+        die("INSERT FAILED: " . mysqli_error($conn));
+    }
 
+    $_SESSION['message'] = "Form submitted successfully. Please go to login.";
+    header("Location: admission.php");
+    exit;
+} 
 
 ?>
 
