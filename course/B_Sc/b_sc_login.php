@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
     }
 
     // Check credentials
-    $sql = "SELECT * FROM bca WHERE (email = '$user' OR phone = '$user') AND password = '$password'";
+    $sql = "SELECT * FROM b_sc WHERE (email = '$user' OR phone = '$user') AND password = '$password'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) == 1) {
@@ -23,7 +23,7 @@ if (isset($_POST['submit'])) {
         exit;
     } else {
         $_SESSION['message'] = "Invalid credentials!";
-        header("Location: bca_login.php");
+        header("Location: b_sc_login.php");
         exit;
     }
 }

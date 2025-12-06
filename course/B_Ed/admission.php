@@ -1,30 +1,23 @@
 <?php
+// Backend code for handling B.Ed admission form submission
 
+// Include the configuration file to establish database connection
 include '../config.php';   // ✔️ This is correct for your structure
+
+// Start the session to manage user messages and data across requests
 session_start();
-//old code
-// if (isset($_POST['submit'])) {
-//     $name = $_POST['name'];
-//     $email = $_POST['email'];
-//     $phone = $_POST['number'];
-//     $gender = $_POST['gender'];
-//     $dob = $_POST['dob'];
 
-//this is my new code with password hashing
-// ---------- FORM SUBMIT ----------
+// Check if the form has been submitted via POST method
 if (isset($_POST['submit'])) {
-
-    // Get values safely
+    // Retrieve and sanitize form input values to prevent injection and trim whitespace
     $name     = trim($_POST['name']);
     $gender   = trim($_POST['gender']);
     $dob      = trim($_POST['dob']);
     $email    = trim($_POST['email']);
     $phone    = trim($_POST['number']);
     $password_plain = trim($_POST['password']);
-    
-  
-    //this is my new code
-    // ---------- BASIC VALIDATION ----------
+
+    // Perform basic validation to ensure all required fields are filled
     if (
         empty($name) ||
         empty($gender) ||
@@ -33,56 +26,23 @@ if (isset($_POST['submit'])) {
         empty($phone) ||
         empty($password_plain)
     ) {
+        // Set error message in session and redirect back to form
         $_SESSION['message'] = "All fields are required!";
         header("Location: admission.php");
         exit;
     }
-//old code
-    // Validate inputs
-    // if (empty($name) || empty($email) || empty($phone) || empty($gender) || empty($dob) || empty($password_plain)) {
-    //     $_SESSION['message'] = "All fields are required!";
-    //     header("Location: admission.php");
-    //     exit;
-    // }
 
-    //new code
-    // Gender validation
+    // Additional validation for gender selection
     if ($gender == "") {
         $_SESSION['message'] = "Please select a valid gender!";
         header("Location: admission.php");
         exit;
     }
 
-  //old code
-    // Get password and HASH it
-    // $password_plain = $_POST['password'];
-    // $password = password_hash($password_plain, PASSWORD_DEFAULT);
-
-    // New code
-    // Hash password
+    // Hash the plain text password for secure storage in the database
     $password = password_hash($password_plain, PASSWORD_DEFAULT);
 
-//old code
-    // CHECK IF EMAIL OR PHONE  ALREADY EXISTS
-    // $checkSql = "SELECT * FROM b_ed WHERE email = '$email' OR phone = '$phone'";
-    // $checkResult = mysqli_query($conn, $checkSql);
-    // if (mysqli_num_rows($checkResult) > 0) {
-    //     $row = mysqli_fetch_assoc($checkResult);
-
-    //     if ($row['email'] == $email) {
-    //         $_SESSION['message'] = "Your Email already exists!";
-    //     }
-    //     if ($row['phone'] == $phone) {
-    //         $_SESSION['message'] = "Your Phone number already exists!";
-    //     }
-
-    //     header("Location: admission.php");
-    //     exit;
-    // }
-
-    
-    // New code
-    // ---------- CHECK DUPLICATE EMAIL / PHONE ----------
+    // Check if the email or phone number already exists in the database to prevent duplicates
     $checkSql = "SELECT * FROM b_ed WHERE email = ? OR phone = ?";
     $stmt = mysqli_prepare($conn, $checkSql);
 
@@ -101,40 +61,11 @@ if (isset($_POST['submit'])) {
         if ($row['phone'] == $phone) {
             $_SESSION['message'] = "Phone number already exists!";
         }
-
         header("Location: admission.php");
         exit;
     }
 
-
-//old code
-    // INSERT DATA INTO DATABASE
-    // INSERT with HASHED PASSWORD
-//     $sql = "INSERT INTO b_ed (name, email, phone, gender, dob, password)
-//             VALUES ('$name', '$email', '$phone', '$gender', '$dob', '$password')";
-
-//     if (!$result) {
-//         die("INSERT FAILED: " . mysqli_error($conn));
-//     }
-
-
-//     $result = mysqli_query($conn, $sql);
-
-//     if ($result) {
-//         $_SESSION['message'] = 'Sent your detail Successful. Wait for reply.';
-//         header('location: admission.php');
-//         exit;
-//     } else {
-//         $_SESSION['message'] = 'Subscription Failed';
-//         header('Location: admission.php');
-//         exit;
-//     }
-// }
-
-
-// New code
-    // ---------- INSERT DATA INTO DATABASE ----------
-   // ---------- INSERT STUDENT ----------
+    // Insert the new student data into the b_ed table using prepared statements for security
     $insertSql = "INSERT INTO b_ed (name, gender, dob, email, phone, password)
                   VALUES (?, ?, ?, ?, ?, ?)";
     $stmt2 = mysqli_prepare($conn, $insertSql);
@@ -150,11 +81,11 @@ if (isset($_POST['submit'])) {
         die("INSERT FAILED: " . mysqli_error($conn));
     }
 
+    // Set success message and redirect back to form
     $_SESSION['message'] = "Form submitted successfully. Please go to login.";
     header("Location: admission.php");
     exit;
-} 
-
+}
 ?>
 
 
@@ -170,7 +101,7 @@ if (isset($_POST['submit'])) {
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body><body class="bg-gray-100">
+<body class="bg-gray-100">
 
     <?php include 'header_register.php'; ?>
 

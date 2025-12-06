@@ -1,63 +1,75 @@
 <?php
+session_start();
+require_once '../config.php'; // Secure include
 
-include '../config.php';
-session_start();        
+// Function: Clean & sanitize input
+function clean($data) {
+    return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
+}
 
-if (isset($_POST['submit'])) {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['number'];
-    $gender = $_POST['gender'];
-    $dob = $_POST['dob'];
-    $password = $_POST['password'];
+// Process form on submit
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
+    // Sanitize input
+    $name     = clean($_POST['name']);
+    $gender   = clean($_POST['gender']);
+    $dob      = clean($_POST['dob']);
+    $email    = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+    $phone    = clean($_POST['number']);
+    $password_plain = clean($_POST['password']);
 
-    // Validate inputs
-    if (empty($name) || empty($email) || empty($phone) || empty($gender) || empty($dob) || empty($password)) {
+    // Required field validation
+    if (!$name || !$gender || !$dob || !$email || !$phone || !$password_plain) {
         $_SESSION['message'] = "All fields are required!";
-        header("Location: b_sc.php");
-        exit;
+        header("Location: b_sc_admission.php");
+        exit();
     }
 
+    // Strong password rule (optional)
+    if (strlen($password_plain) < 6) {
+        $_SESSION['message'] = "Password must be at least 6 characters!";
+        header("Location: b_sc_admission.php");
+        exit();
+    }
 
+    // Hash password
+    $password_hashed = password_hash($password_plain, PASSWORD_DEFAULT);
 
-    // CHECK IF EMAIL OR PHONE  ALREADY EXISTS
-    $checkSql = "SELECT * FROM b_sc WHERE email = '$email' OR phone = '$phone'";
-    $checkResult = mysqli_query($conn, $checkSql);
-    if (mysqli_num_rows($checkResult) > 0) {
-        $row = mysqli_fetch_assoc($checkResult);
+    // Check existing email/phone
+    $check = $conn->prepare("SELECT email, phone FROM b_sc WHERE email = ? OR phone = ?");
+    $check->bind_param("ss", $email, $phone);
+    $check->execute();
+    $result = $check->get_result();
 
-        if ($row['email'] == $email) {
-            $_SESSION['message'] = "Your Email already exists!";
-        }
-        if ($row['phone'] == $phone) {
-            $_SESSION['message'] = "Your Phone number already exists!";
+    if ($row = $result->fetch_assoc()) {
+        if ($row['email'] === $email) {
+            $_SESSION['message'] = "Email already exists!";
+        } elseif ($row['phone'] === $phone) {
+            $_SESSION['message'] = "Phone already exists!";
         }
 
         header("Location: b_sc_admission.php");
-        exit;
+        exit();
     }
 
+    // Insert data securely
+    $insert = $conn->prepare("
+        INSERT INTO b_sc (name, gender, dob, email, phone, password)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ");
+    $insert->bind_param("ssssss", $name, $gender, $dob, $email, $phone, $password_hashed);
 
-
-    $sql = "INSERT INTO b_sc ( name, email , phone, gender, dob, password ) 
-                    VALUES ( '$name', '$email' , '$phone', '$gender', '$dob', '$password' )";
-    $result = mysqli_query($conn, $sql);
-    if ($result) {
-        $_SESSION['message'] = 'Sent your detail Successful wait for reply';
-        header('location:b_sc_admission.php');
-        exit;
+    if ($insert->execute()) {
+        $_SESSION['message'] = "Form submitted successfully. Please go to login.";
     } else {
-        $_SESSION['message'] = 'Subscription Failed';
-        header('Location: bca_admission.php');
-        exit;
+        $_SESSION['message'] = "Something went wrong. Try again!";
     }
 
-
+    header("Location: b_sc_admission.php");
+    exit();
 }
-
-
 ?>
+
 
 
 
@@ -77,12 +89,22 @@ if (isset($_POST['submit'])) {
     <main>
         <main class="main">
 
+  <!-- SHOW ALERT MESSAGE -->
+        <?php if (isset($_SESSION['message'])) : ?>
+            <div class="container mx-auto mt-6 max-w-3xl">
+                <div class="p-4 text-white font-bold text-center rounded-lg bg-red-500 mb-4">
+                    <?= $_SESSION['message']; ?>
+                </div>
+            </div>
+            <?php unset($_SESSION['message']); ?>
+        <?php endif; ?>
+
     <!-- BSC DETAILS SECTION -->
-    <section class="text-gray-700 body-font bg-gray-100 py-16">
-        <div class="container mx-auto px-5">
-            <h1 class="text-4xl font-bold text-center text-blue-700 mb-6">
-                Bachelor of Science (BSC)
-            </h1>
+<section class="text-gray-700 body-font py-16">
+            <div class="container mx-auto px-5">
+                <h1 class="text-4xl font-bold text-center text-blue-700 mb-6">Bachelor of Science (BSC)</h1>
+
+    
 
             <p class="text-lg text-center max-w-3xl mx-auto text-gray-600 mb-8">
                 The <b>BSC program</b> at Dr. Ritik Kumar University provides strong foundational knowledge in 
@@ -123,60 +145,55 @@ if (isset($_POST['submit'])) {
                 BSC Admission Form – 2025
             </h1>
 
-            <form action="#" method="POST" class="bg-gray-100 shadow-lg rounded-lg p-8">
+<form action="" method="POST" class="bg-gray-100 shadow-lg rounded-lg p-8">
 
-                <!-- Name -->
-                <label class="block mb-4">
-                    <span class="text-gray-700 font-medium">Full Name*</span>
-                    <input type="text" id="name" name="name" required
-                        class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </label>
+    <label class="block mb-4">
+        <span class="text-gray-700 font-medium">Full Name*</span>
+        <input type="text" name="name" required
+            class="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring-blue-500">
+    </label>
 
-                <!-- Gender -->
-                <label class="block mb-4">
-                    <span class="text-gray-700 font-medium">Gender*</span>
-                    <select type="gender" id="gender" name="gender" required
-                        class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option>Select Gender</option>
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Other</option>
-                    </select>
-                </label>
+    <label class="block mb-4">
+        <span class="text-gray-700 font-medium">Gender*</span>
+        <select name="gender" required
+            class="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring-blue-500">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+    </label>
 
-                <!-- Date of Birth -->
-                <label class="block mb-4">
-                    <span class="text-gray-700 font-medium">Date of Birth*</span>
-                    <input type="dob" id="dob" name="dob" required
-                        class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </label>
+    <label class="block mb-4">
+        <span class="text-gray-700 font-medium">Date of Birth*</span>
+        <input type="date" name="dob" required
+            class="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring-blue-500">
+    </label>
 
-                <!-- Email -->
-                <label class="block mb-4">
-                    <span class="text-gray-700 font-medium">Email Address*</span>
-                    <input type="email" id="email" name="email" required
-                        class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </label>
+    <label class="block mb-4">
+        <span class="text-gray-700 font-medium">Email*</span>
+        <input type="email" name="email" required
+            class="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring-blue-500">
+    </label>
 
-                <!-- Mobile -->
-                <label class="block mb-4">
-                    <span class="text-gray-700 font-medium">Mobile Number*</span>
-                    <input type="number" id="number" name="number" required
-                        class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </label>
+    <label class="block mb-4">
+        <span class="text-gray-700 font-medium">Mobile Number*</span>
+        <input type="number" name="number" required
+            class="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring-blue-500">
+    </label>
 
-                <!-- Password -->
-                <label class="block mb-4">
-                    <span class="text-gray-700 font-medium">Password*</span>
-                    <input type="password" id="password" name="password" required
-                        class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </label>
+    <label class="block mb-4">
+        <span class="text-gray-700 font-medium">Password*</span>
+        <input type="password" name="password" required
+            class="mt-1 block w-full px-4 py-2 border rounded-lg focus:ring-blue-500">
+    </label>
 
-                <button type="submit" name="submit"
-                    class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition-all">
-                    Submit Admission Form
-                </button>
-            </form>
+    <button type="submit" name="submit"
+        class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
+        Submit Admission Form
+    </button>
+
+</form>
         </div>
     </section>
 
