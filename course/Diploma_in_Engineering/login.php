@@ -14,8 +14,11 @@ if (isset($_POST['submit'])) {
     $password = trim($_POST['password']);
 
     // Fetch user from email or phone
-    $selectquery = "SELECT * FROM diploma_in_engineering WHERE email = '$user' OR phone = '$user'";
-    $res = mysqli_query($conn, $selectquery);
+    $sql = "SELECT * FROM b_ed WHERE email = ? OR phone = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ss", $user, $user);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
 
     if (mysqli_num_rows($res) > 0) {
 
@@ -50,43 +53,58 @@ if (isset($_POST['submit'])) {
 
 
 
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BCA Admission Login</title>
+    <title>B.Ed Admission Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-100 min-h-screen flex flex-col">
 
-    <!-- Header Include -->
     <?php include 'header_login.php'; ?>
 
     <main class="flex flex-1 items-center justify-center py-10">
 
         <div class="bg-white w-80 p-8 rounded-xl shadow-lg">
+            
+            <!-- Show Session Message -->
+            <?php if(isset($_SESSION['message'])): ?>
+                <p class="mb-4 text-red-600 text-center">
+                    <?php 
+                        echo $_SESSION['message']; 
+                        unset($_SESSION['message']);
+                    ?>
+                </p>
+            <?php endif; ?>
+
             <h2 class="text-2xl font-semibold text-center mb-6">Login</h2>
 
-            <form action="dashboard.php" method="POST" class="space-y-4">
-                <input type="text"  name="user"  placeholder="Email or Mobile"  required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+            <form method="POST" class="space-y-4">
 
-                <input type="password"  name="password"  placeholder="Password"  required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                <input type="text" name="user" placeholder="Email or Mobile"
+                    required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
 
-                <button type="submit"  name="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                <input type="password" name="password" placeholder="Password"
+                    required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+
+                <button type="submit" name="submit"
+                    class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
                     Login
                 </button>
+
+                <p class="text-center text-sm mt-2">
+                    Not registered? <a href="admission.php" class="text-blue-600">Register Now</a>
+                </p>
+
             </form>
         </div>
 
     </main>
 
-    <!-- Footer Include -->
     <?php include '../../form/footer.php'; ?>
 
 </body>
