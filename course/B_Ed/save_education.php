@@ -2,38 +2,63 @@
 include '../config.php';
 session_start();
 
+if (!isset($_SESSION['student_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
 $id = $_SESSION['student_id'];
 
-$edu_10_board = $_POST['edu_10_board'];
-$edu_10_year = $_POST['edu_10_year'];
-$edu_10_percent = $_POST['edu_10_percent'];
+// Get Values from Form
+$edu_10_board       = $_POST['edu_10_board'];
+$edu_10_year        = $_POST['edu_10_year'];
+$edu_10_percent     = $_POST['edu_10_percent'];
 
-$edu_12_board = $_POST['edu_12_board'];
-$edu_12_year = $_POST['edu_12_year'];
-$edu_12_percent = $_POST['edu_12_percent'];
+$edu_12_board       = $_POST['edu_12_board'];
+$edu_12_year        = $_POST['edu_12_year'];
+$edu_12_percent     = $_POST['edu_12_percent'];
 
-$graduation_course = $_POST['graduation_course'];
-$graduation_uni = $_POST['graduation_uni'];
-$graduation_year = $_POST['graduation_year'];
+$graduation_course  = $_POST['graduation_course'];
+$graduation_uni     = $_POST['graduation_uni'];
+$graduation_year    = $_POST['graduation_year'];
 $graduation_percent = $_POST['graduation_percent'];
 
-$sql = "UPDATE b_ed SET 
-        edu_10_board='$edu_10_board',
-        edu_10_year='$edu_10_year',
-        edu_10_percent='$edu_10_percent',
-        
-        edu_12_board='$edu_12_board',
-        edu_12_year='$edu_12_year',
-        edu_12_percent='$edu_12_percent',
+// Update Query
+$sql = "UPDATE b_ed SET
+    edu_10_board = ?, 
+    edu_10_year = ?, 
+    edu_10_percent = ?,
+    edu_12_board = ?, 
+    edu_12_year = ?, 
+    edu_12_percent = ?,
+    graduation_course = ?, 
+    graduation_uni = ?, 
+    graduation_year = ?, 
+    graduation_percent = ?
+    WHERE id = ?";
 
-        graduation_course='$graduation_course',
-        graduation_uni='$graduation_uni',
-        graduation_year='$graduation_year',
-        graduation_percent='$graduation_percent'
-        
-        WHERE id='$id'";
+$stmt = mysqli_prepare($conn, $sql);
 
-mysqli_query($conn, $sql);
+mysqli_stmt_bind_param(
+    $stmt,
+    "ssssssssssi",
+    $edu_10_board,
+    $edu_10_year,
+    $edu_10_percent,
+    $edu_12_board,
+    $edu_12_year,
+    $edu_12_percent,
+    $graduation_course,
+    $graduation_uni,
+    $graduation_year,
+    $graduation_percent,
+    $id
+);
 
-header("Location: dashboard.php?msg=education_updated");
+mysqli_stmt_execute($stmt);
+
+// Success message
+$_SESSION['message'] = "Education details updated successfully!";
+header("Location: dashboard.php");
 exit;
+?>

@@ -75,6 +75,10 @@ $edu = mysqli_fetch_assoc($query);
         </button>
 
     </form>
+       <a href="dashboard.php"
+                    class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-yellow-700 transition">
+                    Back to Dashboard
+                </a>
 </div>
 
 </body>

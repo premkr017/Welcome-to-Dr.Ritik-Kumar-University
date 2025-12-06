@@ -8,13 +8,15 @@ if (!isset($_SESSION['student_id'])) {
     exit;
 }
 
-// Fetch user basic data
+// Fetch user basic + full details (same table)
 $id = $_SESSION['student_id'];
 $query = mysqli_query($conn, "SELECT * FROM b_ed WHERE id = '$id'");
 $user = mysqli_fetch_assoc($query);
 
-// Fetch student full details (same table)
-$student = $user; // user aur student same table se aaya hai
+// Safe fallback function
+function show($value) {
+    return !empty($value) ? $value : "<span class='text-red-600'>Not Provided</span>";
+}
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +37,7 @@ $student = $user; // user aur student same table se aaya hai
 
         <!-- Welcome Header -->
         <h1 class="text-3xl font-bold text-center text-blue-700 mb-10">
-            Welcome, <?= $user['name']; ?> 👋
+            Welcome, <?= show($user['name']); ?> 👋
         </h1>
 
         <!-- Stats -->
@@ -44,14 +46,14 @@ $student = $user; // user aur student same table se aaya hai
             <div class="bg-white shadow-lg rounded-xl p-6 text-center">
                 <h3 class="text-gray-500">Application Status</h3>
                 <p class="text-xl font-bold text-green-600 mt-2">
-                    <?= $user['status'] ?? 'Pending'; ?>
+                    <?= show($user['status'] ?? 'Pending'); ?>
                 </p>
             </div>
 
             <div class="bg-white shadow-lg rounded-xl p-6 text-center">
                 <h3 class="text-gray-500">Registration No.</h3>
                 <p class="text-xl font-bold text-blue-600 mt-2">
-                    <?= $user['reg_no'] ?? 'Not Assigned'; ?>
+                    <?= show($user['reg_no'] ?? 'Not Assigned'); ?>
                 </p>
             </div>
 
@@ -75,33 +77,33 @@ $student = $user; // user aur student same table se aaya hai
 
                 <div>
                     <p class="text-gray-500 text-sm">Full Name</p>
-                    <p class="text-lg font-medium text-gray-800"><?= $user['name']; ?></p>
+                    <p class="text-lg font-medium text-gray-800"><?= show($user['name']); ?></p>
                 </div>
 
                 <div>
                     <p class="text-gray-500 text-sm">Email</p>
-                    <p class="text-lg font-medium text-gray-800"><?= $user['email']; ?></p>
+                    <p class="text-lg font-medium text-gray-800"><?= show($user['email']); ?></p>
                 </div>
 
                 <div>
                     <p class="text-gray-500 text-sm">Mobile Number</p>
-                    <p class="text-lg font-medium text-gray-800"><?= $user['phone']; ?></p>
+                    <p class="text-lg font-medium text-gray-800"><?= show($user['phone']); ?></p>
                 </div>
 
                 <div>
                     <p class="text-gray-500 text-sm">Gender</p>
-                    <p class="text-lg font-medium text-gray-800"><?= $user['gender']; ?></p>
+                    <p class="text-lg font-medium text-gray-800"><?= show($user['gender']); ?></p>
                 </div>
 
                 <div>
                     <p class="text-gray-500 text-sm">Date of Birth</p>
-                    <p class="text-lg font-medium text-gray-800"><?= $user['dob']; ?></p>
+                    <p class="text-lg font-medium text-gray-800"><?= show($user['dob']); ?></p>
                 </div>
 
             </div>
 
             <!-- Buttons -->
-            <div class="flex justify-between mt-8">
+            <div class="flex flex-wrap justify-between gap-4 mt-8">
 
                 <a href="edit_profile.php"
                     class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
@@ -112,8 +114,9 @@ $student = $user; // user aur student same table se aaya hai
                     class="bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-yellow-700 transition">
                     Fill Full Details
                 </a>
+
                 <a href="education_details.php"
-                    class="bg-green-800 text-white px-6 py-2 rounded-lg hover:bg-yellow-700 transition">
+                    class="bg-green-800 text-white px-6 py-2 rounded-lg hover:bg-green-900 transition">
                     Add Education Details
                 </a>
 
@@ -133,20 +136,20 @@ $student = $user; // user aur student same table se aaya hai
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 <div>
-                    <p><b>Father Name:</b> <?= $student['father_name']; ?></p>
-                    <p><b>Mother Name:</b> <?= $student['mother_name']; ?></p>
-                    <p><b>Address:</b> <?= $student['address']; ?></p>
-                    <p><b>State:</b> <?= $student['state']; ?></p>
-                    <p><b>City:</b> <?= $student['city']; ?></p>
-                    <p><b>Pincode:</b> <?= $student['pincode']; ?></p>
-                    <p><b>Category:</b> <?= $student['category']; ?></p>
+                    <p><b>Father Name:</b> <?= show($user['father_name']); ?></p>
+                    <p><b>Mother Name:</b> <?= show($user['mother_name']); ?></p>
+                    <p><b>Address:</b> <?= show($user['address']); ?></p>
+                    <p><b>State:</b> <?= show($user['state']); ?></p>
+                    <p><b>City:</b> <?= show($user['city']); ?></p>
+                    <p><b>Pincode:</b> <?= show($user['pincode']); ?></p>
+                    <p><b>Category:</b> <?= show($user['category']); ?></p>
                 </div>
 
                 <div>
-                    <p><b>Qualification:</b> <?= $student['qualification']; ?></p>
-                    <p><b>Passing Year:</b> <?= $student['passing_year']; ?></p>
-                    <p><b>Percentage:</b> <?= $student['percentage']; ?></p>
-                    <p><b>Aadhar:</b> <?= $student['aadhar']; ?></p>
+                    <p><b>Qualification:</b> <?= show($user['qualification']); ?></p>
+                    <p><b>Passing Year:</b> <?= show($user['passing_year']); ?></p>
+                    <p><b>Percentage:</b> <?= show($user['percentage']); ?></p>
+                    <p><b>Aadhar:</b> <?= show($user['aadhar']); ?></p>
                 </div>
 
             </div>
@@ -156,76 +159,94 @@ $student = $user; // user aur student same table se aaya hai
 
                 <div>
                     <p><b>Photo</b></p>
-                    <img src="uploads/<?= $student['photo']; ?>" class="h-24 border rounded">
+                    <?php if(!empty($user['photo'])): ?>
+                        <img src="uploads/<?= $user['photo']; ?>" class="h-24 border rounded">
+                    <?php else: ?>
+                        <p class="text-red-600">Not Uploaded</p>
+                    <?php endif; ?>
                 </div>
 
                 <div>
                     <p><b>Aadhar Card</b></p>
-                    <a href="uploads/<?= $student['aadhar_file']; ?>" target="_blank" class="text-blue-600 underline">
-                        View File
-                    </a>
+                    <?php if(!empty($user['aadhar_file'])): ?>
+                        <a href="uploads/<?= $user['aadhar_file']; ?>" target="_blank" class="text-blue-600 underline">
+                            View File
+                        </a>
+                    <?php else: ?>
+                        <p class="text-red-600">Not Uploaded</p>
+                    <?php endif; ?>
                 </div>
 
                 <div>
                     <p><b>10th Marksheet</b></p>
-                    <a href="uploads/<?= $student['marksheet10']; ?>" target="_blank" class="text-blue-600 underline">
-                        View File
-                    </a>
+                    <?php if(!empty($user['marksheet10'])): ?>
+                        <a href="uploads/<?= $user['marksheet10']; ?>" target="_blank" class="text-blue-600 underline">View File</a>
+                    <?php else: ?>
+                        <p class="text-red-600">Not Uploaded</p>
+                    <?php endif; ?>
                 </div>
 
                 <div>
                     <p><b>12th Marksheet</b></p>
-                    <a href="uploads/<?= $student['marksheet12']; ?>" target="_blank" class="text-blue-600 underline">
-                        View File
-                    </a>
+                    <?php if(!empty($user['marksheet12'])): ?>
+                        <a href="uploads/<?= $user['marksheet12']; ?>" target="_blank" class="text-blue-600 underline">View File</a>
+                    <?php else: ?>
+                        <p class="text-red-600">Not Uploaded</p>
+                    <?php endif; ?>
                 </div>
 
                 <div>
                     <p><b>Caste Certificate</b></p>
-                    <a href="uploads/<?= $student['caste']; ?>" target="_blank" class="text-blue-600 underline">
-                        View File
-                    </a>
+                    <?php if(!empty($user['caste'])): ?>
+                        <a href="uploads/<?= $user['caste']; ?>" target="_blank" class="text-blue-600 underline">View File</a>
+                    <?php else: ?>
+                        <p class="text-red-600">Not Uploaded</p>
+                    <?php endif; ?>
                 </div>
 
                 <div>
                     <p><b>Signature</b></p>
-                    <img src="uploads/<?= $student['signature']; ?>" class="h-16 border rounded">
+                    <?php if(!empty($user['signature'])): ?>
+                        <img src="uploads/<?= $user['signature']; ?>" class="h-16 border rounded">
+                    <?php else: ?>
+                        <p class="text-red-600">Not Uploaded</p>
+                    <?php endif; ?>
                 </div>
 
             </div>
         </section>
 
+        <!-- Education Details Section -->
         <section class="bg-white shadow-md p-6 rounded-lg mt-10">
 
-<h2 class="text-2xl font-bold text-blue-700 mb-4">Education Details</h2>
+            <h2 class="text-2xl font-bold text-blue-700 mb-4">Education Details</h2>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-    <div>
-        <h3 class="text-xl font-semibold">10th</h3>
-        <p><b>Board:</b> <?= $user['edu_10_board']; ?></p>
-        <p><b>Passing Year:</b> <?= $user['edu_10_year']; ?></p>
-        <p><b>Percentage:</b> <?= $user['edu_10_percent']; ?></p>
-    </div>
+                <div>
+                    <h3 class="text-xl font-semibold">10th</h3>
+                    <p><b>Board:</b> <?= show($user['edu_10_board']); ?></p>
+                    <p><b>Passing Year:</b> <?= show($user['edu_10_year']); ?></p>
+                    <p><b>Percentage:</b> <?= show($user['edu_10_percent']); ?></p>
+                </div>
 
-    <div>
-        <h3 class="text-xl font-semibold">12th</h3>
-        <p><b>Board:</b> <?= $user['edu_12_board']; ?></p>
-        <p><b>Passing Year:</b> <?= $user['edu_12_year']; ?></p>
-        <p><b>Percentage:</b> <?= $user['edu_12_percent']; ?></p>
-    </div>
+                <div>
+                    <h3 class="text-xl font-semibold">12th</h3>
+                    <p><b>Board:</b> <?= show($user['edu_12_board']); ?></p>
+                    <p><b>Passing Year:</b> <?= show($user['edu_12_year']); ?></p>
+                    <p><b>Percentage:</b> <?= show($user['edu_12_percent']); ?></p>
+                </div>
 
-    <div>
-        <h3 class="text-xl font-semibold">Graduation</h3>
-        <p><b>Course:</b> <?= $user['graduation_course']; ?></p>
-        <p><b>University:</b> <?= $user['graduation_uni']; ?></p>
-        <p><b>Year:</b> <?= $user['graduation_year']; ?></p>
-        <p><b>Percentage:</b> <?= $user['graduation_percent']; ?></p>
-    </div>
+                <div>
+                    <h3 class="text-xl font-semibold">Graduation</h3>
+                    <p><b>Course:</b> <?= show($user['graduation_course']); ?></p>
+                    <p><b>University:</b> <?= show($user['graduation_uni']); ?></p>
+                    <p><b>Year:</b> <?= show($user['graduation_year']); ?></p>
+                    <p><b>Percentage:</b> <?= show($user['graduation_percent']); ?></p>
+                </div>
 
-</div>
-</section>
-
+            </div>
+        </section>
 
     </main>
 
