@@ -1,0 +1,10 @@
+- [x] Update backend comment from B.Ed to B.Sc
+- [x] Change page title to B.Sc Admission Registration
+- [x] Update main heading to Bachelor of Science (B.Sc)
+- [x] Update course description paragraph for B.Sc
+- [x] Change duration to 3 Years
+- [x] Update eligibility to 12th pass with science subjects
+- [x] Update career opportunities list for B.Sc
+- [x] Change admission form title to B.Sc Admission Form – 2025
+- [x] Fix INSERT comment from b_ed to b_sc
+- [x] Change section comment from B.ED DETAILS to B.Sc DETAILS

@@ -10,7 +10,7 @@ if (!isset($_SESSION['student_id'])) {
 
 // Fetch user basic + full details (same table)
 $id = $_SESSION['student_id'];
-$sql = "SELECT * FROM b_ed WHERE id = ?";
+$sql = "SELECT * FROM bba WHERE id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
@@ -30,7 +30,7 @@ function show($value) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B.Ed Dashboard</title>
+    <title>BBA Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -75,7 +75,7 @@ function show($value) {
         <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8">
 
             <h2 class="text-2xl font-semibold text-gray-700 mb-6 text-center">
-                👤 Profile Details
+                👤 Profile Details (BBA Student)
             </h2>
 
             <div class="space-y-4">
@@ -136,7 +136,7 @@ function show($value) {
 
         <!-- Full Details Section -->
         <section class="bg-white shadow-md p-6 rounded-lg mt-10">
-            <h2 class="text-2xl font-bold text-blue-700 mb-4">Student Full Details</h2>
+            <h2 class="text-2xl font-bold text-blue-700 mb-4">BBA Student Full Details</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -244,7 +244,7 @@ function show($value) {
 
                 <div>
                     <h3 class="text-xl font-semibold">Graduation</h3>
-                    <p><b>Course:</b> <?= show($user['graduation_course'] ?? ''); ?></p>
+                    <p><b>Course:</b> <?= show($user['graduation_course'] ?? 'BBA'); ?></p>
                     <p><b>University:</b> <?= show($user['graduation_uni'] ?? ''); ?></p>
                     <p><b>Year:</b> <?= show($user['graduation_year'] ?? ''); ?></p>
                     <p><b>Percentage:</b> <?= show($user['graduation_percent'] ?? ''); ?></p>

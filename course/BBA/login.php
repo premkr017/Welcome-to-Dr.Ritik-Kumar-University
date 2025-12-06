@@ -13,8 +13,8 @@ if (isset($_POST['submit'])) {
     $user = trim($_POST['user']);
     $password = trim($_POST['password']);
 
-    // Fetch user from email or phone
-    $sql = "SELECT * FROM b_ed WHERE email = ? OR phone = ?";
+    // Fetch user from email or phone (TABLE CHANGED to bba)
+    $sql = "SELECT * FROM bba WHERE email = ? OR phone = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ss", $user, $user);
     mysqli_stmt_execute($stmt);
@@ -33,7 +33,7 @@ if (isset($_POST['submit'])) {
             $_SESSION['loggedin'] = true;
             $_SESSION['student_id'] = $row['id'];
             $_SESSION['student_name'] = $row['name'];
-            $_SESSION['phone'] = $row['phone'];   // FIXED
+            $_SESSION['phone'] = $row['phone'];
             $_SESSION['email'] = $row['email'];
 
             header('Location: dashboard.php');
@@ -49,17 +49,13 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B.Ed Admission Login</title>
+    <title>BBA Admission Login</title> <!-- UPDATED -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -81,7 +77,7 @@ if (isset($_POST['submit'])) {
                 </p>
             <?php endif; ?>
 
-            <h2 class="text-2xl font-semibold text-center mb-6">Login</h2>
+            <h2 class="text-2xl font-semibold text-center mb-6">BBA Login</h2> <!-- UPDATED -->
 
             <form method="POST" class="space-y-4">
 

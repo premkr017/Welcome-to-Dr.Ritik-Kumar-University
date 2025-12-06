@@ -11,7 +11,7 @@ if (!isset($_SESSION['student_id'])) {
 $id = $_SESSION['student_id'];
 
 // Fetch existing education data
-$sql = "SELECT * FROM b_ed WHERE id=?";
+$sql = "SELECT * FROM bba WHERE id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
@@ -23,36 +23,34 @@ mysqli_stmt_close($stmt);
 if (isset($_POST['submit'])) {
 
     // 10th
-    $tenth_school = $_POST['tenth_school'];
-    $tenth_board = $_POST['tenth_board'];
-    $tenth_year = $_POST['tenth_year'];
-    $tenth_percentage = $_POST['tenth_percentage'];
+    $edu_10_board = $_POST['edu_10_board'];
+    $edu_10_year = $_POST['edu_10_year'];
+    $edu_10_percent = $_POST['edu_10_percent'];
 
     // 12th
-    $twelfth_school = $_POST['twelfth_school'];
-    $twelfth_board = $_POST['twelfth_board'];
-    $twelfth_year = $_POST['twelfth_year'];
-    $twelfth_percentage = $_POST['twelfth_percentage'];
+    $edu_12_board = $_POST['edu_12_board'];
+    $edu_12_year = $_POST['edu_12_year'];
+    $edu_12_percent = $_POST['edu_12_percent'];
 
     // Graduation
     $graduation_course = $_POST['graduation_course'];
-    $graduation_university = $_POST['graduation_university'];
+    $graduation_uni = $_POST['graduation_uni'];
     $graduation_year = $_POST['graduation_year'];
-    $graduation_percentage = $_POST['graduation_percentage'];
+    $graduation_percent = $_POST['graduation_percent'];
 
     // UPDATE QUERY
-    $sql = "UPDATE b_ed SET 
-        tenth_school=?, tenth_board=?, tenth_year=?, tenth_percentage=?,
-        twelfth_school=?, twelfth_board=?, twelfth_year=?, twelfth_percentage=?,
-        graduation_course=?, graduation_university=?, graduation_year=?, graduation_percentage=?
+    $sql = "UPDATE bba SET
+        edu_10_board=?, edu_10_year=?, edu_10_percent=?,
+        edu_12_board=?, edu_12_year=?, edu_12_percent=?,
+        graduation_course=?, graduation_uni=?, graduation_year=?, graduation_percent=?
         WHERE id=?";
 
     $stmt = mysqli_prepare($conn, $sql);
 
-    mysqli_stmt_bind_param($stmt, "ssssssssssssi",
-        $tenth_school, $tenth_board, $tenth_year, $tenth_percentage,
-        $twelfth_school, $twelfth_board, $twelfth_year, $twelfth_percentage,
-        $graduation_course, $graduation_university, $graduation_year, $graduation_percentage,
+    mysqli_stmt_bind_param($stmt, "ssssssssssi",
+        $edu_10_board, $edu_10_year, $edu_10_percent,
+        $edu_12_board, $edu_12_year, $edu_12_percent,
+        $graduation_course, $graduation_uni, $graduation_year, $graduation_percent,
         $id
     );
 
@@ -85,35 +83,29 @@ if (isset($_POST['submit'])) {
         <!-- 10th Section -->
         <h3 class="text-xl font-bold">10th Details</h3>
 
-        <input type="text" name="tenth_school" placeholder="School Name"
-            value="<?= $edu['tenth_school'] ?? '' ?>" class="w-full border p-3 rounded-lg">
-
-        <input type="text" name="tenth_board" placeholder="Board"
-            value="<?= $edu['tenth_board'] ?? '' ?>" class="w-full border p-3 rounded-lg">
+        <input type="text" name="edu_10_board" placeholder="Board"
+            value="<?= $edu['edu_10_board'] ?? '' ?>" class="w-full border p-3 rounded-lg">
 
         <div class="grid grid-cols-2 gap-4">
-            <input type="text" name="tenth_year" placeholder="Passing Year"
-                value="<?= $edu['tenth_year'] ?? '' ?>" class="border p-3 rounded-lg">
+            <input type="text" name="edu_10_year" placeholder="Passing Year"
+                value="<?= $edu['edu_10_year'] ?? '' ?>" class="border p-3 rounded-lg">
 
-            <input type="text" name="tenth_percentage" placeholder="Percentage"
-                value="<?= $edu['tenth_percentage'] ?? '' ?>" class="border p-3 rounded-lg">
+            <input type="text" name="edu_10_percent" placeholder="Percentage"
+                value="<?= $edu['edu_10_percent'] ?? '' ?>" class="border p-3 rounded-lg">
         </div>
 
         <!-- 12th Section -->
         <h3 class="text-xl font-bold">12th Details</h3>
 
-        <input type="text" name="twelfth_school" placeholder="School Name"
-            value="<?= $edu['twelfth_school'] ?? '' ?>" class="w-full border p-3 rounded-lg">
-
-        <input type="text" name="twelfth_board" placeholder="Board"
-            value="<?= $edu['twelfth_board'] ?? '' ?>" class="w-full border p-3 rounded-lg">
+        <input type="text" name="edu_12_board" placeholder="Board"
+            value="<?= $edu['edu_12_board'] ?? '' ?>" class="w-full border p-3 rounded-lg">
 
         <div class="grid grid-cols-2 gap-4">
-            <input type="text" name="twelfth_year" placeholder="Passing Year"
-                value="<?= $edu['twelfth_year'] ?? '' ?>" class="border p-3 rounded-lg">
+            <input type="text" name="edu_12_year" placeholder="Passing Year"
+                value="<?= $edu['edu_12_year'] ?? '' ?>" class="border p-3 rounded-lg">
 
-            <input type="text" name="twelfth_percentage" placeholder="Percentage"
-                value="<?= $edu['twelfth_percentage'] ?? '' ?>" class="border p-3 rounded-lg">
+            <input type="text" name="edu_12_percent" placeholder="Percentage"
+                value="<?= $edu['edu_12_percent'] ?? '' ?>" class="border p-3 rounded-lg">
         </div>
 
         <!-- Graduation Section -->
@@ -122,14 +114,14 @@ if (isset($_POST['submit'])) {
         <input type="text" name="graduation_course" placeholder="Course (B.A, B.Com, etc.)"
             value="<?= $edu['graduation_course'] ?? '' ?>" class="w-full border p-3 rounded-lg">
 
-        <input type="text" name="graduation_university" placeholder="University"
-            value="<?= $edu['graduation_university'] ?? '' ?>" class="w-full border p-3 rounded-lg">
+        <input type="text" name="graduation_uni" placeholder="University"
+            value="<?= $edu['graduation_uni'] ?? '' ?>" class="w-full border p-3 rounded-lg">
 
         <div class="grid grid-cols-2 gap-4">
             <input type="text" name="graduation_year" placeholder="Passing Year"
                 value="<?= $edu['graduation_year'] ?? '' ?>" class="border p-3 rounded-lg">
-            <input type="text" name="graduation_percentage" placeholder="Percentage"
-                value="<?= $edu['graduation_percentage'] ?? '' ?>" class="border p-3 rounded-lg">
+            <input type="text" name="graduation_percent" placeholder="Percentage"
+                value="<?= $edu['graduation_percent'] ?? '' ?>" class="border p-3 rounded-lg">
         </div>
 
         <button name="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold">
