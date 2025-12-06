@@ -25,15 +25,15 @@ $graduation_percent = $_POST['graduation_percent'];
 
 // Update Query
 $sql = "UPDATE b_ed SET
-    edu_10_board = ?, 
-    edu_10_year = ?, 
+    edu_10_board = ?,
+    edu_10_year = ?,
     edu_10_percent = ?,
-    edu_12_board = ?, 
-    edu_12_year = ?, 
+    edu_12_board = ?,
+    edu_12_year = ?,
     edu_12_percent = ?,
-    graduation_course = ?, 
-    graduation_uni = ?, 
-    graduation_year = ?, 
+    graduation_course = ?,
+    graduation_uni = ?,
+    graduation_year = ?,
     graduation_percent = ?
     WHERE id = ?";
 

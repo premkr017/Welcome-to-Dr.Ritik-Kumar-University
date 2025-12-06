@@ -11,8 +11,13 @@ if (!isset($_SESSION['student_id'])) {
 $id = $_SESSION['student_id'];
 
 // Get current user data
-$query = mysqli_query($conn, "SELECT * FROM b_ed WHERE id='$id'");
-$user = mysqli_fetch_assoc($query);
+$sql = "SELECT * FROM b_ed WHERE id=?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "i", $id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$user = mysqli_fetch_assoc($result);
+mysqli_stmt_close($stmt);
 
 // Update profile
 if (isset($_POST['update'])) {

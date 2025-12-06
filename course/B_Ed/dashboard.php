@@ -10,12 +10,17 @@ if (!isset($_SESSION['student_id'])) {
 
 // Fetch user basic + full details (same table)
 $id = $_SESSION['student_id'];
-$query = mysqli_query($conn, "SELECT * FROM b_ed WHERE id = '$id'");
-$user = mysqli_fetch_assoc($query);
+$sql = "SELECT * FROM b_ed WHERE id = ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "i", $id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$user = mysqli_fetch_assoc($result);
+mysqli_stmt_close($stmt);
 
 // Safe fallback function
 function show($value) {
-    return !empty($value) ? $value : "<span class='text-red-600'>Not Provided</span>";
+    return isset($value) && !empty($value) ? $value : "<span class='text-red-600'>Not Provided</span>";
 }
 ?>
 
@@ -225,24 +230,24 @@ function show($value) {
 
                 <div>
                     <h3 class="text-xl font-semibold">10th</h3>
-                    <p><b>Board:</b> <?= show($user['edu_10_board']); ?></p>
-                    <p><b>Passing Year:</b> <?= show($user['edu_10_year']); ?></p>
-                    <p><b>Percentage:</b> <?= show($user['edu_10_percent']); ?></p>
+                    <p><b>Board:</b> <?= show($user['edu_10_board'] ?? ''); ?></p>
+                    <p><b>Passing Year:</b> <?= show($user['edu_10_year'] ?? ''); ?></p>
+                    <p><b>Percentage:</b> <?= show($user['edu_10_percent'] ?? ''); ?></p>
                 </div>
 
                 <div>
                     <h3 class="text-xl font-semibold">12th</h3>
-                    <p><b>Board:</b> <?= show($user['edu_12_board']); ?></p>
-                    <p><b>Passing Year:</b> <?= show($user['edu_12_year']); ?></p>
-                    <p><b>Percentage:</b> <?= show($user['edu_12_percent']); ?></p>
+                    <p><b>Board:</b> <?= show($user['edu_12_board'] ?? ''); ?></p>
+                    <p><b>Passing Year:</b> <?= show($user['edu_12_year'] ?? ''); ?></p>
+                    <p><b>Percentage:</b> <?= show($user['edu_12_percent'] ?? ''); ?></p>
                 </div>
 
                 <div>
                     <h3 class="text-xl font-semibold">Graduation</h3>
-                    <p><b>Course:</b> <?= show($user['graduation_course']); ?></p>
-                    <p><b>University:</b> <?= show($user['graduation_uni']); ?></p>
-                    <p><b>Year:</b> <?= show($user['graduation_year']); ?></p>
-                    <p><b>Percentage:</b> <?= show($user['graduation_percent']); ?></p>
+                    <p><b>Course:</b> <?= show($user['graduation_course'] ?? ''); ?></p>
+                    <p><b>University:</b> <?= show($user['graduation_uni'] ?? ''); ?></p>
+                    <p><b>Year:</b> <?= show($user['graduation_year'] ?? ''); ?></p>
+                    <p><b>Percentage:</b> <?= show($user['graduation_percent'] ?? ''); ?></p>
                 </div>
 
             </div>
