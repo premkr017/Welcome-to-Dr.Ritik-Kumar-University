@@ -10,7 +10,7 @@ if (!isset($_SESSION['student_id'])) {
 $id = $_SESSION['student_id'];
 
 // Fetch Old Values
-$sql = "SELECT * FROM b_ed WHERE id = ?";
+$sql = "SELECT * FROM d_pharm WHERE id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 if (!$stmt) {
     die("Prepare failed: " . mysqli_error($conn));

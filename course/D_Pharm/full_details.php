@@ -11,7 +11,7 @@ if (!isset($_SESSION['student_id'])) {
 $id = $_SESSION['student_id'];
 
 // Fetch existing education data
-$sql = "SELECT * FROM b_ed WHERE id=?";
+$sql = "SELECT * FROM d_pharm WHERE id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
@@ -41,7 +41,7 @@ if (isset($_POST['submit'])) {
     $graduation_percentage = $_POST['graduation_percentage'];
 
     // UPDATE QUERY
-    $sql = "UPDATE b_ed SET 
+    $sql = "UPDATE d_pharm SET 
         tenth_school=?, tenth_board=?, tenth_year=?, tenth_percentage=?,
         twelfth_school=?, twelfth_board=?, twelfth_year=?, twelfth_percentage=?,
         graduation_course=?, graduation_university=?, graduation_year=?, graduation_percentage=?

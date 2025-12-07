@@ -10,8 +10,8 @@ if (!isset($_SESSION['student_id'])) {
 
 $id = $_SESSION['student_id'];
 
-// Get current user data
-$sql = "SELECT * FROM b_ed WHERE id=?";
+// Get current user data from bba table
+$sql = "SELECT * FROM bca WHERE id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
@@ -28,8 +28,8 @@ if (isset($_POST['update'])) {
     $gender = trim($_POST['gender']);
     $dob    = trim($_POST['dob']);
 
-    // Update query
-    $update = "UPDATE b_ed 
+    // Update query for bba table
+    $update = "UPDATE bca 
                SET name=?, email=?, phone=?, gender=?, dob=?
                WHERE id=?";
 
@@ -51,7 +51,7 @@ if (isset($_POST['update'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile</title>
+    <title>Edit Profile - BBA</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -62,7 +62,7 @@ if (isset($_POST['update'])) {
 <div class="container mx-auto max-w-xl py-12">
 
     <h1 class="text-3xl font-bold text-center text-blue-700 mb-6">
-        Edit Profile
+        Edit Profile (BBA)
     </h1>
 
     <?php if (isset($error)): ?>

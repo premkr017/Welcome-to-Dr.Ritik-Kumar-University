@@ -10,7 +10,7 @@ if (!isset($_SESSION['student_id'])) {
 
 // Fetch user basic + full details (same table)
 $id = $_SESSION['student_id'];
-$sql = "SELECT * FROM b_ed WHERE id = ?";
+$sql = "SELECT * FROM diploma_in_engineering WHERE id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);

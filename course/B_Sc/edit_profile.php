@@ -11,7 +11,7 @@ if (!isset($_SESSION['student_id'])) {
 $id = $_SESSION['student_id'];
 
 // Get current user data
-$sql = "SELECT * FROM b_ed WHERE id=?";
+$sql = "SELECT * FROM b_sc WHERE id=?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
@@ -29,7 +29,7 @@ if (isset($_POST['update'])) {
     $dob    = trim($_POST['dob']);
 
     // Update query
-    $update = "UPDATE b_ed 
+    $update = "UPDATE b_sc 
                SET name=?, email=?, phone=?, gender=?, dob=?
                WHERE id=?";
 

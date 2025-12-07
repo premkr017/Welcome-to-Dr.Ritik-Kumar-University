@@ -41,7 +41,7 @@ if (isset($_POST['submit'])) {
     $password = password_hash($password_plain, PASSWORD_DEFAULT);
 
     // Check duplicate email or phone
-    $checkSql = "SELECT * FROM bba WHERE email = ? OR phone = ?";
+    $checkSql = "SELECT * FROM b_sc WHERE email = ? OR phone = ?";
     $stmt = mysqli_prepare($conn, $checkSql);
 
     if (!$stmt) {
@@ -64,7 +64,7 @@ if (isset($_POST['submit'])) {
     }
 
     // Insert into table bba
-    $insertSql = "INSERT INTO bba (name, gender, dob, email, phone, password)
+    $insertSql = "INSERT INTO b_sc (name, gender, dob, email, phone, password)
                   VALUES (?, ?, ?, ?, ?, ?)";
     $stmt2 = mysqli_prepare($conn, $insertSql);
 

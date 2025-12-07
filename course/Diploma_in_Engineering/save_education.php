@@ -24,7 +24,7 @@ $graduation_year    = $_POST['graduation_year'];
 $graduation_percent = $_POST['graduation_percent'];
 
 // Update Query
-$sql = "UPDATE b_ed SET
+$sql = "UPDATE diploma_in_engineering SET
     edu_10_board = ?,
     edu_10_year = ?,
     edu_10_percent = ?,

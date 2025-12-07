@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
     $password = trim($_POST['password']);
 
     // Fetch user from email or phone
-    $sql = "SELECT * FROM b_ed WHERE email = ? OR phone = ?";
+    $sql = "SELECT * FROM d_pharm WHERE email = ? OR phone = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ss", $user, $user);
     mysqli_stmt_execute($stmt);

@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
     $password = password_hash($password_plain, PASSWORD_DEFAULT);
 
     // Check if the email or phone number already exists in the database to prevent duplicates
-    $checkSql = "SELECT * FROM b_ed WHERE email = ? OR phone = ?";
+    $checkSql = "SELECT * FROM d_pharm WHERE email = ? OR phone = ?";
     $stmt = mysqli_prepare($conn, $checkSql);
 
     if (!$stmt) {
@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
     }
 
     // Insert the new student data into the b_ed table using prepared statements for security
-    $insertSql = "INSERT INTO b_ed (name, gender, dob, email, phone, password)
+    $insertSql = "INSERT INTO d_pharm (name, gender, dob, email, phone, password)
                   VALUES (?, ?, ?, ?, ?, ?)";
     $stmt2 = mysqli_prepare($conn, $insertSql);
 
